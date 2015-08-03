@@ -19,7 +19,7 @@ public class AnalyticsAutoUpdate {
     private AnalyticsService analyticsService;
     private AnalyticsRepository analyticsRepository;
 
-    @Scheduled(cron="23 50 * * * ?")
+    @Scheduled(cron="50 23 * * * ?")
     public void dailyUpdate()
     {
         Random rand = new Random();

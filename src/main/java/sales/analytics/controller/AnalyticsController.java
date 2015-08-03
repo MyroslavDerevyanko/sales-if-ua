@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import sales.analytics.domain.Analytics;
+import sales.analytics.service.AnalyticsAutoUpdate;
 import sales.analytics.service.AnalyticsService;
 
 import java.util.Date;

@@ -3,6 +3,7 @@ package sales.orders.services;
 import sales.orders.domain.Order;
 import sales.storage.domain.Storage;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +20,5 @@ public interface OrdersService {
 
     public List<Order> getByStorages(List<Storage> storages);
 
+    public List<Order> getByDateAfter(Date date);
 }

@@ -14,6 +14,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sales.orders.domain.Order;
+import sales.users.domain.User;
 
 /**
  * Created by Myroslav on 29.07.2015.
@@ -86,5 +88,36 @@ public class AnalyticsController {
         return analyticsService.getBefore(beforeDate);
     }
 
+    @RequestMapping(value = "lastUsers/{user}/{min}", method = RequestMethod.GET, produces = "application/json")
+
+    public List<User> getLastUsers(@PathVariable String user, @PathVariable int min)
+    {
+        logger.info("Get new "+user+" for last "+min + " min");
+        return analyticsService.getUsersForLastTime(user, min);
+    }
+
+    @RequestMapping(value = "lastUsersAmount/{user}/{min}", method = RequestMethod.GET, produces = "application/json")
+
+    public int getLastUsersAmount(@PathVariable String user, @PathVariable int min)
+    {
+        logger.info("Get new" +  user + " amount for last" + min + "min");
+        return analyticsService.getUsersAmountForLAstTime(user, min);
+    }
+
+    @RequestMapping(value = "lastOrders/{h}", method = RequestMethod.GET, produces = "application/json")
+
+    public double getMoneyTransaction(@PathVariable int h)
+    {
+        logger.info("Get money transaction for last " + h + " h");
+        return analyticsService.getMoneyTransactionForLastTime(h);
+    }
+
+    @RequestMapping(value = "soldGoods/{h}", method = RequestMethod.GET, produces = "application/json")
+
+    public int getSoldGoods(@PathVariable int h)
+    {
+        logger.info("Get sold goods amount for last " + h + " h");
+        return analyticsService.getSoldGoods(h);
+    }
 }
 

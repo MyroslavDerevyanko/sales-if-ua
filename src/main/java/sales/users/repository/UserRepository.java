@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import sales.roles.domain.Role;
 import sales.users.domain.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    List<User> findByCreationDateAfter(String creationDate);
+    List<User> findByCreationDateAfterAndRole(Date creationDate, Role role);
+
+    List<User> findByCreationDateAfter(Date creationDate);
 
     Page<User> findByRoleAndFirstName(Role role, String firstName, Pageable pageable);
 

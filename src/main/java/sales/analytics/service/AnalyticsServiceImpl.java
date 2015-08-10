@@ -5,6 +5,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import sales.analytics.domain.Analytics;
 import sales.analytics.repository.AnalyticsRepository;
+import sales.orders.domain.Order;
+import sales.orders.services.OrdersService;
+import sales.roles.service.RoleService;
+import sales.users.domain.User;
+import sales.users.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -22,6 +27,12 @@ public class AnalyticsServiceImpl implements AnalyticsService{
     protected static Logger logger = Logger.getLogger(AnalyticsServiceImpl.class.getName());;
     @Autowired
     private AnalyticsRepository analyticsRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private OrdersService ordersService;
 
     @Override
     public Analytics get(GregorianCalendar date) {
@@ -56,6 +67,44 @@ public class AnalyticsServiceImpl implements AnalyticsService{
     public List<Analytics> getBefore(Date date) {
         return analyticsRepository.findByDateBefore(date);
     }
+
+    @Override
+    public List<User> getUsersForLastTime(String user, int min) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -min);
+        return  userRepository.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue(user));
+        //return  userRepository.findByCreationDateAfter(calendar.getTime());
+
+    }
+
+    @Override
+    public int getUsersAmountForLAstTime(String user, int min) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -min);
+        return  userRepository.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue(user)).size();
+    }
+
+    @Override
+    public double getMoneyTransactionForLastTime(int h) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, -h);
+        List<Order> orders = ordersService.getByDateAfter(calendar.getTime());
+        double sum=0;
+        for(Order order: orders)
+        {
+            sum+=order.getStorage().getPrice();
+        }
+        return sum;
+    }
+
+    @Override
+    public int getSoldGoods(int h) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, -h);
+        List<Order> orders = ordersService.getByDateAfter(calendar.getTime());
+        return orders.size();
+    }
+
 
     public void createOnStart()
     {

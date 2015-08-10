@@ -1,7 +1,9 @@
 package sales.users.service;
 
+import sales.roles.domain.Role;
 import sales.users.domain.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,5 +25,7 @@ public interface UserService {
 
     List<User> findByRole(String roleValue, int page, int amount, String sortField);
 
-    List<User> findByCreationDateAfter(String creationDate);
+    List<User> findByCreationDateAfterAndRole(Date creationDate, Role role);
+
+    List<User> findByCreationDateAfter(Date creationDate);
 }

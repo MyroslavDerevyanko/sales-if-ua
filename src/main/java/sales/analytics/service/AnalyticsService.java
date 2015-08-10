@@ -1,6 +1,8 @@
 package sales.analytics.service;
 
 import sales.analytics.domain.Analytics;
+import sales.orders.domain.Order;
+import sales.users.domain.User;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,6 +23,14 @@ public interface AnalyticsService {
     public List<Analytics> getAfter(Date date);
 
     public List<Analytics> getBefore(Date date);
+
+    public List<User> getUsersForLastTime(String user, int min);
+
+    public int getUsersAmountForLAstTime(String user, int min);
+
+    public double getMoneyTransactionForLastTime(int h);
+
+    public int getSoldGoods(int h);
 
   /*  public void AnalyticsAutoUpdate();*/
 

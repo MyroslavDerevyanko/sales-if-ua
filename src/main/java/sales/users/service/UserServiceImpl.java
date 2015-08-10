@@ -12,6 +12,7 @@ import sales.security.StringToMd5;
 import sales.users.domain.User;
 import sales.users.repository.UserRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -102,7 +103,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByCreationDateAfter(String creationDate) {
-        return userRepository.findByCreationDateAfter(creationDate);
+    public List<User> findByCreationDateAfterAndRole(Date creationDate, Role role) {
+        return userRepository.findByCreationDateAfterAndRole(creationDate, role);
+    }
+
+    @Override
+    public List<User> findByCreationDateAfter(Date creationDate) {
+        return  userRepository.findByCreationDateAfter(creationDate);
     }
 }

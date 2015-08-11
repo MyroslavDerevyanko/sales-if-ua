@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import sales.users.domain.User;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * Created by taras on 31.07.15.
  */
+@Service("registration")
 public class RegistrationServiceImpl implements RegistrationService {
     final static Logger logger = LoggerFactory.getLogger(RegistrationServiceImpl.class);
 
@@ -45,9 +47,9 @@ public class RegistrationServiceImpl implements RegistrationService {
                 message.setFrom("salesifua@gmail.com");
                 Map model = new HashMap();
                 model.put("user", user);
-                String text = "This is my email notification!";
-                /*String text = VelocityEngineUtils.mergeTemplateIntoString(
-                        velocityEngine, "resources/registration-confirmation.vm", model);*/
+                //String text = "This is my email notification!";
+                String text = VelocityEngineUtils.mergeTemplateIntoString(
+                        velocityEngine, "email-template/registration-confirmation.vm", model);
                 message.setText(text, true);
             }
         };

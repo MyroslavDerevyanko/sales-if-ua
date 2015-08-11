@@ -1,13 +1,15 @@
 package sales.users.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import sales.descriptions.domain.Description;
+import sales.payment.creaditCard.domain.CreditCard;
 import sales.roles.domain.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,15 +25,15 @@ public class User implements Serializable{
     @JsonProperty
     private Long id;
 
-    @Column(name = "password", columnDefinition = "VARCHAR(100) COLLATE utf8_general_ci")
+    @Column(name = "password", columnDefinition = "VARCHAR(100)")
     @JsonProperty
     private String password;
 
-    @Column(name = "first_name", columnDefinition = "VARCHAR(255) COLLATE utf8_general_ci")
+    @Column(name = "first_name", columnDefinition = "VARCHAR(255)")
     @JsonProperty
     private String firstName;
 
-    @Column(name = "last_name", columnDefinition = "VARCHAR(255) COLLATE utf8_general_ci")
+    @Column(name = "last_name", columnDefinition = "VARCHAR(255)")
     @JsonProperty
     private String lastName;
 
@@ -53,15 +55,25 @@ public class User implements Serializable{
     @JsonProperty
     private Date creationDate;
 
+    @Column(name = "isBlocked")
+    @JsonProperty
+    private boolean isBlocked;
+
     @PrePersist
     private void onCreateUserInstance() {
         creationDate = new Date();
+        isBlocked = false;
     }
 
     @ManyToOne(targetEntity = Role.class)
     @JoinColumn(name = "role", referencedColumnName = "id")
     @JsonProperty
     private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JsonProperty
+    private List<CreditCard> creditCards;
 
     public User() {
     }
@@ -149,6 +161,22 @@ public class User implements Serializable{
         this.role = role;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
+    }
+
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(List<CreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -156,7 +184,7 @@ public class User implements Serializable{
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", address='" + city + '\'' +
+                ", city='" + city + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", creationDate=" + creationDate + '\'' +

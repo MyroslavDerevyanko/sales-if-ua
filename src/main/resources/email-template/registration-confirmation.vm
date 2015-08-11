@@ -1,0 +1,9 @@
+<html>
+<body>
+<h3>Hi ${user.firstName}, welcome to the Sales-If-Ua!</h3>
+
+<div>
+    Your email address is <a href="mailto:${user.email}">${user.email}</a>.
+</div>
+</body>
+</html>

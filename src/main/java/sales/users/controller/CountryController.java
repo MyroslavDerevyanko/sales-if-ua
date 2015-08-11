@@ -36,7 +36,7 @@ public class CountryController {
 
     @RequestMapping(
             method = RequestMethod.GET,
-            value = "/countries",
+            value = "/country",
             produces = "application/json")
     public List<Country> getAllCountries() {
         logger.debug("Get list of countries");
@@ -54,16 +54,16 @@ public class CountryController {
 
     @RequestMapping(
             method = RequestMethod.GET,
-            value = "/country",
+            value = "/country/{name}",
             produces = "application/json")
-    public Country getOneCountryByName(@RequestParam(required = true, value = "name") String name) {
+    public Country getOneCountryByName(@PathVariable(value = "name") String name) {
         logger.debug("Get country by name");
         return countryService.getOneByName(name);
     }
 
     @RequestMapping(
             method = RequestMethod.GET,
-            value = "/country/{id}/regions",
+            value = "/country/{id}/region",
             produces = "application/json")
     public List<Region> getAllRegions(@PathVariable("id") Long id) {
         logger.debug("Get list of regions");
@@ -81,16 +81,16 @@ public class CountryController {
 
     @RequestMapping(
             method = RequestMethod.GET,
-            value = "/region",
+            value = "/region/{name}",
             produces = "application/json")
-    public Region getOneRegionByName(@RequestParam(required = true, value = "name") String name) {
+    public Region getOneRegionByName(@PathVariable(value = "name") String name) {
         logger.debug("Get region by name");
         return regionService.getOneByName(name);
     }
 
     @RequestMapping(
             method = RequestMethod.GET,
-            value = "/country/{id}/region/{idR}/cities",
+            value = "/country/{id}/region/{idR}/city",
             produces = "application/json")
     public List<City> getAllCities(@PathVariable("id") Long id,
                                    @PathVariable("idR") Long idR) {
@@ -111,9 +111,9 @@ public class CountryController {
 
     @RequestMapping(
             method = RequestMethod.GET,
-            value = "/city",
+            value = "/city/{name}",
             produces = "application/json")
-    public City getOneCityByName(@RequestParam(required = true, value = "name") String name) {
+    public City getOneCityByName(@PathVariable(value = "name") String name) {
         logger.debug("Get city by name");
         return cityService.getOneByName(name);
     }

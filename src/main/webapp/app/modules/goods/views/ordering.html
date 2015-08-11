@@ -2,69 +2,66 @@
 	<!-- .row -->
 	<div class="row">
 		<div class="col-md-offset-2 col-md-8 order-wrap ordering-content">
+			
 			<!-- .col-md-6 -->
-			<div class="col-md-6">
-				<img class="img-rounded center-block" src="app/modules/goods/img/noote.PNG" height="200px">
-				<div class="">
-					<table class="table">
-					<tbody>
-						<tr>
-							<th>Characteristic</th><td>Value</td>
-						</tr>
-						<tr>
-							<th>Characteristic</th><td>Value</td>
-						</tr>
-						<tr>
-							<th>Characteristic</th><td>Value</td>
-						</tr>
-					</tbody>
-				</table>
-				</div>
-			</div><!-- /.col-md-6 -->
-			<!-- .col-md-6 -->
-		<div class="col-md-6">
-			<h3 class="text-center">Ordering</h3>
+		<div class="col-md-offset-3 col-md-6">
 			<form ng-submit="makeOrder()" name="OrderForm">
 				<div class="form-group has-feedback" ng-class="getClass(OrderForm.firstname.$valid, OrderForm.firstname.$pristine)">
 					<label>Name</label>
-					<input type="text" name="firstname" class="form-control" ng-model="firstName" required ng-minlength="2">
+					<input type="text" name="firstname" class="form-control" ng-model="firstName" required ng-minlength="2" ng-pattern="/^[A-Za-zА-Яа-яі]*$/">
 					<span class="glyphicon form-control-feedback" ng-class="getIconClass(OrderForm.firstname.$valid, OrderForm.firstname.$pristine)" ng-show="OrderForm.firstname.$dirty"></span>
-					<span ng-show="OrderForm.firstname.$dirty && OrderForm.firstname.$invalid">Name is invalid:</span>
+					<span ng-show="OrderForm.firstname.$dirty && OrderForm.firstname.$invalid">Name must be at least 2 characters long. Allowed only English, Ucrainian, Russian language characters.</span>
 				</div>
 				<div class="form-group has-feedback" ng-class="getClass(OrderForm.lastname.$valid, OrderForm.lastname.$pristine)">
 					<label>Last Name</label>
-					<input type="text" name="lastname" class="form-control" ng-model="lastName" required ng-minlength="2">
+					<input type="text" name="lastname" class="form-control" ng-model="lastName" required ng-minlength="2" ng-pattern="/^[A-Za-zА-Яа-яі]*$/">
 					<span class="glyphicon form-control-feedback" ng-class="getIconClass(OrderForm.lastname.$valid, OrderForm.lastname.$pristine)" ng-show="OrderForm.lastname.$dirty"></span>
+					<span ng-show="OrderForm.lastname.$dirty && OrderForm.lastname.$invalid">Last name must be at least 2 characters long. Allowed only English, Ucrainian, Russian characters.</span>
 				</div>
-				<div class="form-group">
+				<div class="form-group has-feedback" ng-class="getClass(OrderForm.email.$valid, OrderForm.email.$pristine)">
 					<label>Email</label>
-					<input type="email" class="form-control" ng-model="email" required>
+					<input type="email" name="email" class="form-control" ng-model="email" required ng-pattern="/^[\w\.-_\+]+@[\w-]+(\.\w{2,4})+$/">
+					<span class="glyphicon form-control-feedback" ng-class="getIconClass(OrderForm.email.$valid, OrderForm.email.$pristine)"></span>
+					<span ng-show="OrderForm.email.$dirty && OrderForm.email.$invalid">Email must have in simmilar format: bob@gmail.com</span>
 				</div>
 				<hr>
 				<div class="form-group">
 					<label>Card Number</label>
-					<input type="text" class="form-control">
+					<input type="text" name="creditnumber" class="form-control" ng-model="card.number" ng-change="validateCredit(card.number)">
+					<span ng-show="!creditValid && OrderForm.creditnumber.$dirty">Credit number must have 16 digits</span>
 				</div>
 				<div class="form-group">
 					<label>Card Type</label>
-					<select class="form-control">
-						<option>Master Card</option>
-						<option>American Express</option>
+					<select class="form-control" ng-model="card.type">
+						<option>master card</option>
+						<option>visa</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label>Expiery Month</label>
-					<input type="text" class="form-control" ng-model="expieryMonth">
-				</div>
-				<div class="form-group">
-					<label>Expiery Year</label>
-					<input type="text" class="form-control" ng-model="expieryYear">
+					<div class="col-md-6 no-left-pad">
+						<div class="form-group">
+							<label>Month</label>
+							<input type="number" min="1" max="12" class="form-control" required ng-model="card.expireMonth" ng-change="validateExpDate(card.expireMonth, card.expireYear)">
+						</div>
+					</div>
+					<div class="col-md-6 no-right-pad">
+						<div class="form-group">
+							<label>Year</label>
+							<select class="form-control" required ng-model="card.expireYear"  ng-change="validateExpDate(card.expireMonth, card.expireYear)">
+								<option>2015</option>
+								<option>2016</option>
+								<option>2017</option>
+								<option>2018</option>
+							</select>
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label>CVV2</label>
-					<input type="text" class="form-control" ng-model="cvv2">
+					<input type="text" class="form-control" ng-model="card.cvv2" required ng-minlength="3" ng-pattern="/^\d{3}$/">
 				</div>
-				<button type="submit" class="btn btn-default center-block" ng-disabled="OrderForm.$invalid">Order</button>
+				<!-- Ng-invalid:{{OrderForm.$invalid}}, Credit Valid:{{creditValid}}, Exp Date Valid:{{expDateValid}} -->
+				<button type="submit" class="btn btn-default center-block" ng-disabled="OrderForm.$invalid || !creditValid || !expDateValid ">Order {{creditValid}}</button>
 			</form>
 		</div><!-- /.col-md-6 -->
 		</div>

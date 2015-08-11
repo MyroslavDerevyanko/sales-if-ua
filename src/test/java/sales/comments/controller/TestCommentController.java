@@ -42,11 +42,8 @@ public class TestCommentController extends AbstractTestNGSpringContextTests {
     private static final Long USER_ID = 1L;
     private static final String COMMENT_TEXT = "TEST_COMMENT_TEXT";
     private static final double RATING = 1.0;
-
+    private static final String MAIN_URL = "/comment";
     private String commentJson;
-    private String POST_URL = "/comment/add";
-    private String GET_URL = "/comment/all?goodId=";
-    private String DELETE_URL = "/comment/remove?commentId=";
 
     @BeforeMethod
     public void initMockMvc() throws JsonProcessingException {
@@ -64,7 +61,7 @@ public class TestCommentController extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testCommentController() throws Exception {
-        MvcResult result = mockMvc.perform(post(POST_URL)
+        MvcResult result = mockMvc.perform(post(MAIN_URL)
                 .content(commentJson)
                 .contentType(MediaType.APPLICATION_JSON)
                 .sessionAttr("comment", this.comment))
@@ -74,12 +71,12 @@ public class TestCommentController extends AbstractTestNGSpringContextTests {
         String response = result.getResponse().getContentAsString();
         Long commentId = new ObjectMapper().readValue(response, Comment.class).getId();
 
-        mockMvc.perform(get(GET_URL + GOOD_ID)
+        mockMvc.perform(get(MAIN_URL + "/" + GOOD_ID)
                 .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON));
 
-        mockMvc.perform(delete(DELETE_URL + commentId))
+        mockMvc.perform(delete(MAIN_URL + "/" + commentId))
                 .andExpect(status().isOk());
     }
 

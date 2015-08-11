@@ -20,7 +20,7 @@
    
    mysql -u salesifua -p
    
-   CREATE DATABASE salesifua;
+   CREATE DATABASE salesifua character set utf8;
 
 
 ### Run server 

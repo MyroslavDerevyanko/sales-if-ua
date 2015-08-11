@@ -4,10 +4,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sales.analytics.domain.ClientsAnalytic;
+import sales.analytics.domain.SalesAnalytic;
 import sales.analytics.domain.ShopsAnalytic;
 import sales.analytics.repository.ClientsAnalyticsRepository;
+import sales.analytics.repository.SalesAnalyticsRepository;
 import sales.analytics.repository.ShopsAnalyticsRepository;
 import sales.roles.service.RoleService;
+import sales.users.domain.User;
 import sales.users.service.UserService;
 
 import javax.transaction.Transactional;
@@ -28,6 +31,9 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Autowired
     private ShopsAnalyticsRepository shopsAnalyticsRepository;
+
+    @Autowired
+    private SalesAnalyticsRepository salesAnalyticsRepository;
 
     @Autowired
     private UserService userService;
@@ -56,10 +62,39 @@ public class AnalyticsServiceImpl implements AnalyticsService{
     }
 
     @Override
-    public int getUsersAmountForLastTime(int min) {
+    public int getClientsAmountForLastTime(int min) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -min);
         return  userService.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue("client")).size();
+    }
+
+    @Override
+    public int getShopsAmountForLastTime(int min) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -min);
+        return  userService.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue("shop")).size();
+    }
+
+    @Override
+    public List<SalesAnalytic> getAllSales() {
+        return salesAnalyticsRepository.findAll();
+    }
+
+    @Override
+    public List<User> getLastUsers(int min) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -min);
+        return userService.findByCreationDateAfter(calendar.getTime());
+    }
+
+    @Override
+    public List<User> getAllShops() {
+        return userService.findByRole(roleService.getRoleByValue("shop"));
+    }
+
+    @Override
+    public List<SalesAnalytic> getAnalyticsByShop(Long shopId) {
+        return salesAnalyticsRepository.findByShop(userService.getById(shopId));
     }
 
     public void clientsTableAutoGenerate()

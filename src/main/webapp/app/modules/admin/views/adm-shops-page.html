@@ -21,9 +21,9 @@
                 <tr class="textColor">
                     <th>№</th>
                     <th>Shop</th>
-                    <th>Product</th>
                     <th>Location</th>
                     <th>E-mail</th>
+                    <th>Phone number</th>
                     <th>Status</th>
                     <th></th>
                 </tr>
@@ -31,23 +31,20 @@
                 <tbody>
                 <tr class="textColor" ng-repeat="shop in shops" ng-class="getRowStatus(shop.status)">
                     <td>{{$index+1}}</td>
-                    <td>{{shop.name}}</td>
-                    <td>{{shop.productType}}</td>
-                    <td>{{shop.location}}</td>
+                    <td>{{shop.firstName}}</td>
+                    <td>{{shop.city.name}}</td>
                     <td>{{shop.email}}</td>
-                    <td>{{shop.status}}</td>
+                    <td>{{shop.phoneNumber}}</td>
+                    <td>{{shop.isBlocked}}</td>
                     <td>
-                        <button class="btn ButtonColor BtnTextColor fa fa-plus-square" type="button" style="width:90px">
-                            More
-                        </button>
                         <button ng-click="changeButtonName($index)"
                                 class="btn ButtonColor BtnTextColor fa adm-buttonSizeBlockUnblock"
                                 ng-class="getClass(shop.status)" type="button" style="width:90px">
                             {{showMessage(shop.status)}}
                         </button>
-                        <button ng-click="deleteShop($index)" class="btn ButtonColor BtnTextColor fa fa-trash"
-                                type="button"
-                                style="width:90px"> Delete
+                        <button ng-click="deleteAlert($index)" class="btn fa fa-trash ButtonColor BtnTextColor"
+                                type="button" style="width:90px">
+                            Delete
                         </button>
                     </td>
                 </tr>

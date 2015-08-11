@@ -3,6 +3,7 @@ package sales.users.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Country {
     @JsonProperty
     private Long id;
 
-    @Column(name = "name", columnDefinition = "VARCHAR(50) UNIQUE COLLATE utf8_general_ci")
+    @Column(name = "name", columnDefinition = "VARCHAR(50) UNIQUE")
     @JsonProperty
     private String name;
 

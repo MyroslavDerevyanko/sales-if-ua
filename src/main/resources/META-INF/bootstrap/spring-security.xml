@@ -17,29 +17,27 @@
 
         <security:logout
                 invalidate-session="true"
-                logout-success-url="/logout/success"
-                logout-url="/#/home"/>
+                logout-success-url="/#/home"
+                logout-url="/logout"/>
 
-        <security:custom-filter ref="blacklistFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
         <security:custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
         <security:custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER"/>
         <security:session-management session-authentication-strategy-ref="sas"/>
     </security:http>
 
-    <bean id="blacklistFilter" class="sales.security.BlacklistFilter"/>
-
     <bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"
+          p:sessionAuthenticationStrategy-ref="sas"
           p:authenticationManager-ref="authenticationManager"
           p:authenticationFailureHandler-ref="customAuthenticationFailureHandler"
           p:authenticationSuccessHandler-ref="customAuthenticationSuccessHandler"/>
 
     <!-- Default failure url -->
     <bean id="customAuthenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"
-          p:defaultFailureUrl="/#/stuff" />
+          p:defaultFailureUrl="/login/failure" />
 
     <!-- Default success url -->
     <bean id="customAuthenticationSuccessHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler"
-          p:defaultTargetUrl="/#/home" />
+          p:defaultTargetUrl="/login/success" />
 
     <!-- The AuthenticationEntryPoint is responsible for redirecting the user to a particular page, like a login page,
        whenever the server sends back a response requiring authentication -->

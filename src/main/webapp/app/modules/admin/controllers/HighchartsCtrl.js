@@ -29,13 +29,14 @@ admin.controller('HighchartsCtrl', ['$scope', '$http', function ($scope, $http) 
             $scope.users = [];
             $scope.shops = [];
             $scope.products = [];
-            //$scope.data.splice(0, $scope.data.length);
             $scope.data = response.data;
             for (var i = 0; i < $scope.data.length; i++) {
                 var time = $scope.data[i].date;
                 var date = new Date(time);
                 var month = date.getMonth() + 1;
                 $scope.date[i] = date.getDate() + "/" + month + "/" + date.getFullYear();
+                //get date with hour
+                //$scope.date[i] = new Date($scope.data[i].date);
                 $scope.cost[i] = $scope.data[i].cost;
                 $scope.users[i] = $scope.data[i].usersAmount;
                 $scope.shops[i] = $scope.data[i].shopsAmount;

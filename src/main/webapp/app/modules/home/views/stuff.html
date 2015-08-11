@@ -1,50 +1,4 @@
-<div ng-controller="MainCtrl">
-
-	<!-- Header -->
-	<header class="sales-header">
-		<!-- .container -->
-		<div class="container">
-			<!-- .row -->
-			<div class="row">
-				<!-- .col-md-4 -->
-				<div class="col-md-offset-1 col-md-2">
-					<img src="modules/home/img/sales-if-logo.PNG" width="100px" class="sales-logo center-block">
-					<!-- <h3 class="text-center">Opa chin chopa</h3> -->
-				</div><!-- /.col-md-4 -->
-				<!-- .col-md-4 -->
-				<div class="col-md-5 search-block ">
-					<h4 class="text-center">Search products</h4>
-					<form>
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search product">
-							<div class="input-group-btn">
-								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="#">through Shop</a></li>
-									<li><a href="#">through Site</a></li>
-								</ul>
-								<button type="button" class="btn btn-default" data-toggle="dropdown">
-									search
-									<span class="caret"></span>
-								</button>
-								<button type="button" class="btn btn-default">
-									<i class="fa fa-search"></i>
-								</button>
-								
-							</div>
-							
-						</div>
-					</form>
-					
-					<!-- <h3 class="text-center">Offered by</h3> -->
-				</div><!-- /.col-md-4 -->
-				<!-- .col-md-4 -->
-				<div class="col-md-3 shop-logo-column">
-					<h4 class="text-center">Provided by:</h4>
-					<img src="modules/home/img/typical.jpg" class="shop-logo center-block">
-				</div><!-- /.col-md-4 -->
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</header>
+<div ng-controller="ProductsCtrl">
 	<!-- Page Content -->
 	<!-- .container -->
 	<div class="container">
@@ -53,21 +7,21 @@
 		<div class="row">
 			<!-- .col-md-12 -->
 			<div class="col-md-12">
-				<h3 class="text-center">List Of Products</h3>
+				<h1>Search Data {{inputData}}</h1>
 			</div><!-- /.col-md-12 -->
 		</div><!-- /.row -->
 		<!-- Product List Content -->
 		<!-- .row -->
 		<div class="row">
 			<!-- .col-md-3 -->
-			<div class="col-md-3">
+			<div class="col-md-3" ng-repeat="good in goods">
 				<div class="thumbnail">
 					<img src="http://placehold.it/320x150">
 					<div class="caption">
-						<h4 class="pull-right">$24.99</h4>
-						<h4><a href="#/character">First Product</a></h4>
+						<h4 class="pull-right">{{good.price}}</h4>
+						<h4><a href="#/stuff/{{good.id}}">{{good.name}}</a></h4>
 						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
+							{{good.description}}
 						</p>
 					</div>
 					<div class="ratings">
@@ -76,153 +30,6 @@
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150" alt="image">
-					<div class="caption">
-						<h4 class="pull-right">$22.00</h4>
-						<h4><a href="#">Second Product</a></h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">10 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
-					<div class="caption">
-						<h4 class="pull-right">$19.80</h4>
-						<h4><a href="#">Third product</a></h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">7 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
-					<div class="caption">
-						<h4 class="pull-right">$12.25</h4>
-						<h4><a href="#">Fourth Product</a></h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">100 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
-					<div class="caption">
-						<h4 class="pull-right">$33.10</h4>
-						<h4><a href="#">Fifth Product</a></h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">9 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
-					<div class="caption">
-						<h4 class="pull-right">$13.00</h4>
-						<h4><a href="#">Sixth Product</a></h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">17 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
-					<div class="caption">
-						<h4 class="pull-right">$15.70</h4>
-						<h4><a href="#">Seventh Product</a></h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">99 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</p>
-					</div>
-				</div>
-			</div><!-- /.col-md-3 -->
-			<!-- .col-md-3 -->
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
-					<div class="caption">
-						<h4 class="pull-right">$3.59</h4>
-						<h4>Eight Product</h4>
-						<p>
-							See more snippets like this online store item at Bootsnipp - http://bootsnipp.com.
-						</p>
-					</div>
-					<div class="ratings">
-						<p class="pull-right">35 reviews</p>
-						<p>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star-o"></i>
 						</p>
 					</div>
 				</div>

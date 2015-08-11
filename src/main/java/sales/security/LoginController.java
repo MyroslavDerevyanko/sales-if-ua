@@ -2,16 +2,17 @@ package sales.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Created by taras on 28.07.15.
@@ -25,20 +26,29 @@ public class LoginController {
     private SessionRegistryImpl sessionRegistry;
 
     @RequestMapping(
-            value = "/#/home")
-    public String logged(Model model) {
-        logger.debug("Action after successful authorization");
-        //sessionRegistry.getAllSessions(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), false);
-        model.addAttribute("name", SecurityContextHolder.getContext().getAuthentication().getName());
-        return "index";
+            value = "/login/success")
+    public void logged(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        logger.info("Action after successful authorization");
+        HttpSession session = request.getSession(false);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        logger.info(name);
+
+        session.setAttribute("userEmail", name);
+
+        response.sendRedirect("/Practice/");
     }
 
     @RequestMapping(
             value = "/login/failure")
-    public String failure() {
+    public void failure(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.debug("Action after failed authorization");
-        String message = "Login Failure!";
-        return "redirect:/login?message="+message;
+        HttpSession session = request.getSession(false);
+
+        session.setAttribute("check", "error");
+
+        response.sendRedirect("/Practice/");
     }
 
     @RequestMapping(

@@ -22,7 +22,7 @@ public class SalesAnalytic {
 
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "shop", referencedColumnName = "id")
-    @JsonProperty("shopId")
+    @JsonProperty("shop")
     private User shop;
 
     @Column(name = "soldProducts")

@@ -13,6 +13,8 @@ public interface UserService {
 
     User getById(Long id);
 
+    User getByEmail(String email);
+
     User getShop(Long id);
 
     User getClient(Long id);
@@ -25,7 +27,13 @@ public interface UserService {
 
     List<User> findByRole(String roleValue, int page, int amount, String sortField);
 
+    List<User> findByCreationDateAfter(String creationDate);
+
+    void changeUserLock(Long id);
+    
     List<User> findByCreationDateAfterAndRole(Date creationDate, Role role);
 
     List<User> findByCreationDateAfter(Date creationDate);
+
+    List<User> findByRole(Role role);
 }

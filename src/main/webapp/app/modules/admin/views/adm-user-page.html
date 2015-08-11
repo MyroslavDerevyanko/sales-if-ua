@@ -21,9 +21,8 @@
                 <tr>
                     <th>№</th>
                     <th>Name</th>
-                    <th>Sex</th>
-                    <th>Age</th>
                     <th>E-mail</th>
+                    <th>Phone number</th>
                     <th>Status</th>
                     <th></th>
                 </tr>
@@ -31,21 +30,21 @@
                 <tbody>
                 <tr class="textColor" ng-class="getRowStatus(user.status)" ng-repeat="user in users">
                     <td>{{$index+1}}</td>
-                    <td>{{user.name}} {{user.surname}}</td>
-                    <td>{{user.sex}}</td>
-                    <td>{{user.age}}</td>
+                    <td>{{user.firstName}} {{user.lastName}}</td>
                     <td>{{user.email}}</td>
-                    <td>{{user.status}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td>{{user.isBlocked}}</td>
                     <td>
-                        <button class="btn fa fa-plus-square ButtonColor BtnTextColor" type="button" style="width:90px">
-                            More
-                        </button>
                         <button ng-click=" changeButtonName($index)
                         " class="btn fa adm-buttonSizeBlockUnblock ButtonColor BtnTextColor"
                                 ng-class="getClass(user.status)"
-                                type="button" style="width:90px"> {{showMessage(user.status)}}
+                                type="button" style="width:90px"> {{showMessage(user.isBlocked)}}
                         </button>
-                        <button ng-click="deleteUser($index)" class="btn fa fa-trash ButtonColor BtnTextColor"
+                        <!--<button ng-click="deleteUser($index)" class="btn fa fa-trash ButtonColor BtnTextColor"-->
+                                <!--type="button" style="width:90px">-->
+                            <!--Delete-->
+                        <!--</button>-->
+                        <button ng-click="deleteAlert($index)" class="btn fa fa-trash ButtonColor BtnTextColor"
                                 type="button" style="width:90px">
                             Delete
                         </button>

@@ -31,7 +31,7 @@ public class Description {
     private String value;
 
     @ManyToOne(targetEntity = Good.class)
-    @JoinColumn(name = "good", referencedColumnName = "id")
+    @JoinColumn(name = "good_id", referencedColumnName = "id")
     @JsonIgnore
     private Good good;
 

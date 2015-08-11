@@ -26,6 +26,10 @@
     <logger name='org.hibernate.cache' level="ERROR"/>
     <logger name='com.jolbox.bonecp' level="ERROR"/>
     <logger name='org.jboss.logging' level="ERROR"/>
+    <logger name='c.m.s.scanners.ApiListingReferenceScanner' level="ERROR"/>
+    <logger name='c.m.s.m.ObjectMapperBeanPropertyNamingStrategy' level="ERROR"/>
+
+
 
     <root level="DEBUG">
         <!--<level value='DEBUG'/>-->

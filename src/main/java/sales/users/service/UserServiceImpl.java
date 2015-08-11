@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public User getShop(Long id) {
         logger.debug("Get Shop by id");
         return userRepository.findByRoleAndId(roleService.getRoleByValue("shop"), id);
@@ -103,6 +108,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findByCreationDateAfter(String creationDate) {
+        return null;
+    }
+
+    @Override
     public List<User> findByCreationDateAfterAndRole(Date creationDate, Role role) {
         return userRepository.findByCreationDateAfterAndRole(creationDate, role);
     }
@@ -110,5 +120,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByCreationDateAfter(Date creationDate) {
         return  userRepository.findByCreationDateAfter(creationDate);
+    }
+
+    @Override
+    public List<User> findByRole(Role role) {
+        return userRepository.findByRole(role);
+    }
+
+    @Override
+    public void changeUserLock(Long id) {
+        User user = userRepository.findOne(id);
+        user.setIsBlocked(!user.isBlocked());
+        userRepository.save(user);
     }
 }

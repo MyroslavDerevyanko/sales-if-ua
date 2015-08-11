@@ -16,5 +16,15 @@ public interface AnalyticsService {
 
     public List<ShopsAnalytic> getAllShopsAnalytic();
 
-    public int getUsersAmountForLastTime(int min);
+    public int getClientsAmountForLastTime(int min);
+
+    public int getShopsAmountForLastTime(int min);
+
+    public List<SalesAnalytic> getAllSales();
+
+    public List<User> getLastUsers(int min);
+
+    public List<User> getAllShops();
+
+    public List<SalesAnalytic> getAnalyticsByShop(Long shop);
 }

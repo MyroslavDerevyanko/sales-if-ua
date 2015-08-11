@@ -36,26 +36,33 @@ public class CustomUserDetailsService implements UserDetailsService {
      * a {@link UserDetails} object.
      */
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        logger.debug("Process of authorization");
-        try {
-            sales.users.domain.User domainShop = userRepository.findByEmail(userEmail);
-            boolean enabled = true;
-            boolean accountNonExpired = true;
-            boolean credentialsNonExpired = true;
-            boolean accountNonLocked = true;
+        logger.info("Process of authorization");
 
-            return new User(
-                    domainShop.getEmail(),
-                    StringToMd5.getMd5(domainShop.getPassword().toLowerCase()),
-                    enabled,
-                    accountNonExpired,
-                    credentialsNonExpired,
-                    accountNonLocked,
-                    getAuthorities(domainShop.getRole().getId()));
+        sales.users.domain.User user = userRepository.findByEmail(userEmail);
+        throwExceptionIfNotFound(user, userEmail);
 
-        } catch (Exception e) {
-            logger.error("Can`t authorize user " + e);
-            throw new RuntimeException(e);
+
+        sales.users.domain.User domainShop = userRepository.findByEmail(userEmail);
+        boolean enabled = true;
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+
+        User authUser = new User(
+            domainShop.getEmail(),
+            domainShop.getPassword().toLowerCase(),
+            enabled,
+            accountNonExpired,
+            credentialsNonExpired,
+            accountNonLocked,
+            getAuthorities(domainShop.getRole().getId()));
+
+        return authUser;
+    }
+
+    private void throwExceptionIfNotFound(sales.users.domain.User user, String login) {
+        if (user == null) {
+            throw new UsernameNotFoundException("User with login " + login + "  has not been found.");
         }
     }
 
@@ -67,15 +74,21 @@ public class CustomUserDetailsService implements UserDetailsService {
     public List<String> getRoles(Long role) {
         List<String> roles = new ArrayList<String>();
 
-        if (role.intValue() == 1) {
-            roles.add("ROLE_CLIENT");
-            roles.add("ROLE_ADMIN");
-            roles.add("ROLE_SHOP");
-
-        } else if (role.intValue() == 2) {
-            roles.add("ROLE_CLIENT");
-        } else if (role.intValue() == 3) {
-            roles.add("ROLE_SHOP");
+        switch(role.intValue()) {
+            case 1: {
+                roles.add("ROLE_CLIENT");
+                roles.add("ROLE_ADMIN");
+                roles.add("ROLE_SHOP");
+                break;
+            }
+            case 2: {
+                roles.add("ROLE_CLIENT");
+                break;
+            }
+            case 3: {
+                roles.add("ROLE_SHOP");
+                break;
+            }
         }
 
         return roles;

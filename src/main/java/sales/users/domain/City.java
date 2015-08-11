@@ -16,7 +16,7 @@ public class City {
     @JsonProperty
     private Long id;
 
-    @Column(name = "name", columnDefinition = "VARCHAR(50) COLLATE utf8_general_ci")
+    @Column(name = "name", columnDefinition = "VARCHAR(50)")
     @JsonProperty
     private String name;
 

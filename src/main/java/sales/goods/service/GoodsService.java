@@ -19,4 +19,10 @@ public interface GoodsService {
 
     public List<Good> searchByName(String name);
 
+    public List<Good> getNewest(int size);
+
+    public Good rateGoodUpdate(int goodId, double rate);
+
+    public Good rateGoodUpdateRemove(Long commentId);
+
 }

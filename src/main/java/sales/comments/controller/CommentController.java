@@ -25,7 +25,7 @@ public class CommentController {
             value = "Add comment",
             notes = "Consumes Comment json (without commentId & date, they set automaticaly)",
             response = Comment.class)
-    @RequestMapping(value = "/add",
+    @RequestMapping(value = "",
             method = RequestMethod.POST,
             consumes="application/json",
             produces = "application/json")
@@ -40,22 +40,21 @@ public class CommentController {
             notes = "Get all comments for good with %goodId%",
             response = Comment.class,
             responseContainer="List")
-    @RequestMapping(value = "/all",
+    @RequestMapping(value = "/{goodId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public List<Comment> getCommentsByGoodId(@ApiParam(value = "int goodId - id of good", required = true)
-                                             @RequestParam(value = "goodId") int goodId) {
+                                             @PathVariable(value = "goodId") int goodId) {
         return commentService.getCommentsByGoodId(goodId);
     }
 
     @ApiOperation(httpMethod = "DELETE",
             value = "Remove comments",
             notes = "Remove comment with %commentId%")
-    @RequestMapping(value = "/remove",
-            method = RequestMethod.DELETE,
-            produces = "application/json")
+    @RequestMapping(value = "/{commentId}",
+            method = RequestMethod.DELETE)
     public void removeCommentById(@ApiParam(value = "Comment object that needs to be added", required = true)
-                                  @RequestParam(value = "commentId") Long commentId) {
+                                  @PathVariable(value = "commentId") Long commentId) {
         commentService.removeCommentById(commentId);
     }
 }

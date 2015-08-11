@@ -6,6 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sales.comments.domain.Comment;
+import sales.comments.repository.ICommentRepository;
 import sales.goods.domain.Good;
 import sales.goods.repository.GoodsRepository;
 
@@ -20,6 +22,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private GoodsRepository repository;
+
+    @Autowired
+    private ICommentRepository commentRepository;
 
     public Good get(long id) {
         return repository.findById(id);
@@ -59,4 +64,37 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Good> searchByName(String name) {
         return repository.findByNameContainingIgnoreCase(name);
     }
+
+    @Override
+
+    public List<Good> getNewest(int size) {
+        PageRequest pageRequest = new PageRequest(0, 10, new Sort(Sort.Direction.DESC, "date"));
+        return Lists.newArrayList(repository.findAll(pageRequest).getContent());
+    }
+
+    @Override
+    public Good rateGoodUpdate(int goodId, double rate) {
+        return repository.save(updateGoodRatingAdd(goodId, rate));
+    }
+
+    @Override
+    public Good rateGoodUpdateRemove(Long commentId) {
+        return repository.save(updateGoodRatingRemove(commentId));
+    }
+
+    private Good updateGoodRatingAdd(int goodId, double rate) {
+        Good good = repository.findById(goodId);
+        good.setRating((good.getRating() * good.getRatingCount() + rate) / (good.getRatingCount() + 1));
+        good.setRatingCount(good.getRatingCount() + 1);
+        return good;
+    }
+
+    private Good updateGoodRatingRemove(Long commentId) {
+        Comment comment = commentRepository.findById(commentId);
+        Good good = repository.findById(comment.getGoodId());
+        good.setRating((good.getRating() * good.getRatingCount() - comment.getRating()) / (good.getRatingCount() - 1));
+        good.setRatingCount(good.getRatingCount() - 1);
+        return good;
+    }
+
 }

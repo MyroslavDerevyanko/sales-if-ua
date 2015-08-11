@@ -83,4 +83,13 @@ public class GoodsController {
         return service.searchByName(name);
     }
 
+    @RequestMapping(value = "/newest",
+            method = RequestMethod.GET,
+            produces = "application/json; charset=UTF-8")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Good> getNewestGoods(@RequestParam(value = "size") int size) throws IOException {
+        logger.info("Good: get newest using hibernate");
+        return service.getNewest(size);
+    }
+
 }

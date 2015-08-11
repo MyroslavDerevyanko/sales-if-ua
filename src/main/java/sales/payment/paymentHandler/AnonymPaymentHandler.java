@@ -2,6 +2,8 @@ package sales.payment.paymentHandler;
 
 import com.paypal.api.payments.CreditCard;
 import com.paypal.core.rest.PayPalRESTException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -18,9 +20,9 @@ import sales.storage.domain.Storage;
 import sales.storage.service.StorageService;
 import sales.users.domain.User;
 import sales.users.service.UserService;
+import sales.util.Constants;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * Created by volodya on 30.07.15.
@@ -43,7 +45,7 @@ public class AnonymPaymentHandler {
     @Autowired
     UserService userService;
 
-    protected static Logger logger = Logger.getLogger(AnonymPaymentHandler.class.getName());
+    protected static Logger logger = LoggerFactory.getLogger(AnonymPaymentHandler.class.getName());
 
     private CreditCard card;
 
@@ -52,7 +54,6 @@ public class AnonymPaymentHandler {
     private List<Storage> storages;
 
     private List<Transaction> transactions;
-
 
     private void setCard(sales.payment.creaditCard.domain.CreditCard card,
                          String firstName, String lastName) {
@@ -130,7 +131,7 @@ public class AnonymPaymentHandler {
         user.setFirstName(paymentDTO.getFirstName());
         user.setLastName(paymentDTO.getLastName());
         user.setDate(new Date());
-        user.setRole(roleService.getRoleByValue("client"));
+        user.setRole(roleService.getRoleByValue(Constants.CLIENT));
         return user;
     }
 

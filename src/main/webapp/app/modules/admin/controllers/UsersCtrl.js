@@ -1,20 +1,27 @@
 admin.controller('UsersCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get('app/modules/admin/json/users.json').then(function (response) {
+    $http.get('/Practice/user/client').then(function (response) {
         $scope.users = response.data;
+        if($scope.users[index].isBlocked == false){
+            $scope.users[index].isBlocked = "active";
+        }else $scope.users[index].isBlocked = "blocked";
     });
+    $scope.deleteAlert = function(index){
+        if(confirm('You want to delete user:'+$scope.users[index].firstName+' '+$scope.users[index].lastName)){
+            $http.get('/Practice/user/delete/'+$scope.users[index].id);
+            $http.get('/Practice/user/client').then(function (response) {
+                $scope.users = response.data;})
+        }
+
+    };
     $scope.changeStatusBlocked = function (index) {
-        $scope.users[index].status = "blocked";
+        $scope.users[index].isBlocked = "blocked";
     };
     $scope.changeStatusActive = function (index) {
-        $scope.users[index].status = "active";
+        $scope.users[index].isBlocked = "active";
     };
-    $scope.deleteUser = function (index) {
-        $scope.users.splice(index, 1);
-    }
     $scope.btnBlockName = "block";
     $scope.showMessage = function (status) {
-        if (status == "active")
-            return "block"
+        if (status == false){return "block";}
         else
             return "unblock";
     }

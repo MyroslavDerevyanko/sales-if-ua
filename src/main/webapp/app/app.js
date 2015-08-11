@@ -51,14 +51,17 @@ phonecatApp.config(['$routeProvider',
       when('/home', {
         templateUrl: 'app/modules/home/views/main.html'
       }).
-      when('/home/:categoryId', {
-        templateUrl: 'app/modules/home/views/chosen.html'
-      }).
-      when('/home/chosen',{
-       templateUrl: 'app/modules/home/views/chshop.html'
-      }).
+      //when('/home/:categoryId', {
+      //  templateUrl: 'app/modules/home/views/chosen.html'
+      //}).
+      //when('/home/chosen',{
+      // templateUrl: 'app/modules/home/views/chshop.html'
+      //}).
       when('/stuff', {
         templateUrl: 'app/modules/home/views/stuff.html'
+      }).
+      when('/stuff/:goodId', {
+        templateUrl: 'app/modules/goods/views/characteristic-of-product.html'
       }).
       when('/ordering',{
         templateUrl: 'app/modules/goods/views/ordering.html'
@@ -67,10 +70,7 @@ phonecatApp.config(['$routeProvider',
         templateUrl: 'app/modules/admin/views/main.html'
       }).
       when('/character', {
-        templateUrl: 'app/modules/goods/views/nazar-characteristic-of-product.html'
-      }).
-      when('/logIn', {
-        templateUrl: 'app/modules/goods/views/nazar-login-and-registration-page.html'
+        templateUrl: 'app/modules/goods/views/characteristic-of-product.html'
       }).
       otherwise({
         redirectTo: '/home'

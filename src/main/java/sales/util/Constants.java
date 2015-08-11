@@ -13,4 +13,9 @@ public final class Constants {
 
     public static final String PAYPAL_PAYMENT_METHOD = "credit_card";
 
+    public static final String ADMIN = "admin";
+
+    public static final String CLIENT = "client";
+
+    public static final String SHOP = "shop";
 }

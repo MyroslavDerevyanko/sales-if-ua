@@ -2,7 +2,6 @@ package sales.users.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import sales.descriptions.domain.Description;
 import sales.payment.creaditCard.domain.CreditCard;
 import sales.roles.domain.Role;
 

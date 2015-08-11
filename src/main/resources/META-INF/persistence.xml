@@ -8,6 +8,7 @@
                       value="data/fill_address.sql,
                       data/fill_roles.sql,
                       data/fill_users.sql,
+                      data/fill_categories.sql,
                       data/fill_paypal.sql,
                       data/fill_goods.sql,
                       data/fill_descriptions.sql"/>

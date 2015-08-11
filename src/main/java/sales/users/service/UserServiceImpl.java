@@ -133,4 +133,11 @@ public class UserServiceImpl implements UserService {
         user.setIsBlocked(!user.isBlocked());
         userRepository.save(user);
     }
+
+    @Override
+    public void changeUserLock(Long id) {
+        User user = userRepository.findOne(id);
+        user.setIsBlocked(!user.isBlocked());
+        userRepository.save(user);
+    }
 }

@@ -26,6 +26,15 @@ public class UserController {
 
     @RequestMapping(
             method = RequestMethod.GET,
+            value = "/{email}",
+            produces = "application/json")
+    public User getUserByEmail(@PathVariable("email") String email) {
+        logger.info("Get user by email");
+        return userService.getByEmail(email);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
             value = "/shop",
             produces = "application/json")
     public List<User> getAllShops(@RequestParam(required = false, value ="page", defaultValue = "0") int page,

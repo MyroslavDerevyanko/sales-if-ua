@@ -36,6 +36,7 @@ public class LoginController {
         logger.info(name);
 
         session.setAttribute("userEmail", name);
+        session.setAttribute("check", "true");
 
         response.sendRedirect("/Practice/");
     }

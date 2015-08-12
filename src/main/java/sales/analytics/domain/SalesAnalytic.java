@@ -1,6 +1,7 @@
 package sales.analytics.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModel;
 import sales.users.domain.User;
@@ -20,9 +21,9 @@ public class SalesAnalytic {
     @JsonProperty("id")
     private int id;
 
-    @OneToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "shop", referencedColumnName = "id")
-    @JsonProperty("shop")
+    @JsonIgnore
     private User shop;
 
     @Column(name = "soldProducts")

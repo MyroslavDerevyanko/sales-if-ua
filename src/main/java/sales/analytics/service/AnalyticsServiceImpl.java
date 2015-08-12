@@ -15,6 +15,7 @@ import sales.users.service.UserService;
 
 import javax.transaction.Transactional;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -53,12 +54,22 @@ public class AnalyticsServiceImpl implements AnalyticsService{
     }
 
     @Override
+    public List<ClientsAnalytic> getClientsAnalyticForPeriod(Date from, Date to) {
+        return clientsAnalyticsRepository.findByDateBetween(from, to);
+    }
+
+    @Override
     public List<ShopsAnalytic> getAllShopsAnalytic() {
         if (tableShopsAnalyticsIsEmpty())
         {
             shopsTableAutoGenerate();
         }
         return shopsAnalyticsRepository.findAll();
+    }
+
+    @Override
+    public List<ShopsAnalytic> getShopsAnalyticForPeriod(Date from, Date to) {
+        return shopsAnalyticsRepository.findByDateBetween(from, to);
     }
 
     @Override
@@ -77,6 +88,10 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Override
     public List<SalesAnalytic> getAllSales() {
+        if(tableSalesAnalyticsIsEmpty())
+        {
+            salesTableAutoGenerate();
+        }
         return salesAnalyticsRepository.findAll();
     }
 
@@ -94,7 +109,20 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Override
     public List<SalesAnalytic> getAnalyticsByShop(Long shopId) {
+        if(tableSalesAnalyticsIsEmpty())
+        {
+            salesTableAutoGenerate();
+        }
         return salesAnalyticsRepository.findByShop(userService.getById(shopId));
+    }
+
+    @Override
+    public List<SalesAnalytic> getAnalyticsByShopForPeriod(Long shopId, Date from, Date to) {
+        if(tableSalesAnalyticsIsEmpty())
+        {
+            salesTableAutoGenerate();
+        }
+        return salesAnalyticsRepository.findByShopAndDateBetween(userService.getById(shopId), from, to);
     }
 
     public void clientsTableAutoGenerate()
@@ -119,6 +147,22 @@ public class AnalyticsServiceImpl implements AnalyticsService{
         }
     }
 
+    public void salesTableAutoGenerate()
+    {
+        logger.info("Sales analytics is not found. Generating...");
+
+            for (int i=180; i>0; i--)
+            {
+                for (User shop: userService.findByRole(roleService.getRoleByValue("shop"))) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.add(Calendar.DATE, -i);
+                    Random rand = new Random();
+                    salesAnalyticsRepository.save(new SalesAnalytic(shop, 10 + rand.nextInt(50), 10000 + rand.nextInt(5000), calendar.getTime()));
+                }
+            }
+
+    }
+
     public boolean tableClientsAnalyticsIsEmpty()
     {
         if(clientsAnalyticsRepository.findAll().size()==0)
@@ -134,6 +178,16 @@ public class AnalyticsServiceImpl implements AnalyticsService{
         if(shopsAnalyticsRepository.findAll().size()==0)
         {
             logger.info("Table shopsAnalytics is empty");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean tableSalesAnalyticsIsEmpty()
+    {
+        if(salesAnalyticsRepository.findAll().size()==0)
+        {
+            logger.info("Table salesAnalytic is empty");
             return true;
         }
         return false;

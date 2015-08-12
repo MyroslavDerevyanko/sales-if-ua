@@ -121,7 +121,8 @@
                             <button type="button" class="btn ButtonColor BtnTextColor textColor" data-dismiss="modal">
                                 Close
                             </button>
-                            <input class="btn ButtonColor BtnTextColor textColor" type="submit" value="Login"/></p>
+                            <input class="btn ButtonColor BtnTextColor textColor" type="submit" value="Login"/>
+                        </p>
                 </form>
                 <p align="center">If you haven't account, you can
                     <a data-toggle="modal" data-target="#sign-up-modal" data-dismiss="modal"> register </a> now.
@@ -323,7 +324,7 @@
             <ul class="nav navbar-nav adm-navStyle">
                 <li><a href="#/home/service">Services</a></li>
                 <li><a href="#/stuff">Products</a></li>
-                <li><a href="#/admin/users">Admin</a></li>
+                <li><a href="#/admin/users" ng-show="sessionRole == 'admin' ">Admin</a></li>
             </ul>
 
             <!-- User's profile button -->
@@ -344,22 +345,21 @@
                     </form>
                 </li>
                 <li>
-                    <a
+                    <a ng-show="sessionRole == 'anonym'"
                             data-toggle="modal"
                             data-target=".login_form">
                         Log In
                     </a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" ng-show="sessionRole != 'anonym'">
                     <a
                             class="dropdown-toggle"
                             data-toggle="dropdown"
                             role="button"
                             aria-expanded="false">
                             <!--NOTICE IMPORTANT THING ABOUT PASSING JSP VARIABLE TO JAVASCRIPT -->
-                        <i class="fa fa-cog" ng-init="grabSessionValue('${sessionScope.userEmail}')"> ${sessionScope.userEmail}</i>
+                        <i class="fa fa-cog"  ng-init="grabSessionValue('${sessionScope.userEmail}')"> ${sessionScope.userEmail}</i>
                         <span class="caret"></span>
-                        {{sessionValue}}
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#user/profile/edit"><i class="fa fa-user"></i> Profile</a></li>

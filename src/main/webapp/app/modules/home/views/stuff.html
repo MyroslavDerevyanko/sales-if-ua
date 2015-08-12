@@ -16,13 +16,13 @@
 			<!-- .col-md-3 -->
 			<div class="col-md-3" ng-repeat="good in goods">
 				<div class="thumbnail">
-					<img src="http://placehold.it/320x150">
+					<img src="app/modules/home/img/iphone.jpg">
 					<div class="caption">
-						<h4 class="pull-right">{{good.price}}</h4>
+						<h4 class="pull-right">{{good.description.price}} $22.2</h4>
 						<h4><a href="#/stuff/{{good.id}}">{{good.name}}</a></h4>
-						<p>
+						<!-- <p>
 							{{good.description}}
-						</p>
+						</p> -->
 					</div>
 					<div class="ratings">
 						<p class="pull-right">15 reviews</p>

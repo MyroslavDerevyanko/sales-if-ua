@@ -23,11 +23,22 @@ admin.controller('RegistrateCtrl', ['$scope', '$http', function ($scope, $http) 
     $scope.role = {"id": 2, "value": "client"}; //1 - adm, 2 - user, 3 - shop
 
 
-    // Grabing session value from JSP
+    $scope.sessionRole = "anonym";
+    // Grabing session value(user email) from JSP
     $scope.sessionValue = "";
     $scope.grabSessionValue = function(value){
         $scope.sessionValue = value;
+
+        $http.get('/Practice/user/?email='+$scope.sessionValue).then(function(response){
+          $scope.user = response.data;
+          $scope.sessionRole = $scope.user.role.value;
+          console.log($scope.user+" "+$scope.sessionRole);
+        });
     };
+
+    // $scope.$watch($scope.sessionValue, function(){
+    //     alert("Changed");
+    // });
 
     $scope.logOut = function(){
         $http.get('/Practice/logout');

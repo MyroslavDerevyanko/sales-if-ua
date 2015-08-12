@@ -14,7 +14,7 @@ import java.util.Date;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ClientsAnalytic {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
     private int id;
 

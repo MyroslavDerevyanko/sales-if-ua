@@ -12,6 +12,7 @@ import sales.analytics.repository.ShopsAnalyticsRepository;
 import sales.roles.service.RoleService;
 import sales.users.domain.User;
 import sales.users.service.UserService;
+import sales.util.Constants;
 
 import javax.transaction.Transactional;
 import java.util.Calendar;
@@ -26,7 +27,7 @@ import java.util.Random;
 @Service
 @Transactional
 
-public class AnalyticsServiceImpl implements AnalyticsService{
+public class AnalyticsServiceImpl implements AnalyticsService {
     @Autowired
     private ClientsAnalyticsRepository clientsAnalyticsRepository;
 
@@ -46,8 +47,7 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Override
     public List<ClientsAnalytic> getAllClientAnalytic() {
-        if (tableClientsAnalyticsIsEmpty())
-        {
+        if (IsTableClientsAnalyticsEmpty()) {
             clientsTableAutoGenerate();
         }
         return clientsAnalyticsRepository.findAll();
@@ -60,8 +60,7 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Override
     public List<ShopsAnalytic> getAllShopsAnalytic() {
-        if (tableShopsAnalyticsIsEmpty())
-        {
+        if (IsTableShopsAnalyticsEmpty()) {
             shopsTableAutoGenerate();
         }
         return shopsAnalyticsRepository.findAll();
@@ -76,20 +75,19 @@ public class AnalyticsServiceImpl implements AnalyticsService{
     public int getClientsAmountForLastTime(int min) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -min);
-        return  userService.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue("client")).size();
+        return userService.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue(Constants.CLIENT)).size();
     }
 
     @Override
     public int getShopsAmountForLastTime(int min) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -min);
-        return  userService.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue("shop")).size();
+        return userService.findByCreationDateAfterAndRole(calendar.getTime(), roleService.getRoleByValue(Constants.SHOP)).size();
     }
 
     @Override
     public List<SalesAnalytic> getAllSales() {
-        if(tableSalesAnalyticsIsEmpty())
-        {
+        if (IsTableSalesAnalyticsEmpty()) {
             salesTableAutoGenerate();
         }
         return salesAnalyticsRepository.findAll();
@@ -104,13 +102,12 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Override
     public List<User> getAllShops() {
-        return userService.findByRole(roleService.getRoleByValue("shop"));
+        return userService.findByRole(roleService.getRoleByValue(Constants.SHOP));
     }
 
     @Override
     public List<SalesAnalytic> getAnalyticsByShop(Long shopId) {
-        if(tableSalesAnalyticsIsEmpty())
-        {
+        if (IsTableSalesAnalyticsEmpty()) {
             salesTableAutoGenerate();
         }
         return salesAnalyticsRepository.findByShop(userService.getById(shopId));
@@ -118,28 +115,25 @@ public class AnalyticsServiceImpl implements AnalyticsService{
 
     @Override
     public List<SalesAnalytic> getAnalyticsByShopForPeriod(Long shopId, Date from, Date to) {
-        if(tableSalesAnalyticsIsEmpty())
-        {
+        if (IsTableSalesAnalyticsEmpty()) {
             salesTableAutoGenerate();
         }
         return salesAnalyticsRepository.findByShopAndDateBetween(userService.getById(shopId), from, to);
     }
 
-    public void clientsTableAutoGenerate()
-    {
+    public void clientsTableAutoGenerate() {
         logger.info("Clients analytics is not found. Generating...");
-        for(int i=180; i>0; i--) {
+        for (int i = 180; i > 0; i--) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, -i);
             Random rand = new Random();
-            clientsAnalyticsRepository.save(new ClientsAnalytic(10+rand.nextInt(20), calendar.getTime()));
+            clientsAnalyticsRepository.save(new ClientsAnalytic(10 + rand.nextInt(20), calendar.getTime()));
         }
     }
 
-    public void shopsTableAutoGenerate()
-    {
+    public void shopsTableAutoGenerate() {
         logger.info("Shops analytics is not found. Generating...");
-        for(int i=180; i>0; i--) {
+        for (int i = 180; i > 0; i--) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, -i);
             Random rand = new Random();
@@ -147,46 +141,38 @@ public class AnalyticsServiceImpl implements AnalyticsService{
         }
     }
 
-    public void salesTableAutoGenerate()
-    {
+    public void salesTableAutoGenerate() {
         logger.info("Sales analytics is not found. Generating...");
 
-            for (int i=180; i>0; i--)
-            {
-                for (User shop: userService.findByRole(roleService.getRoleByValue("shop"))) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.DATE, -i);
-                    Random rand = new Random();
-                    salesAnalyticsRepository.save(new SalesAnalytic(shop, 10 + rand.nextInt(50), 10000 + rand.nextInt(5000), calendar.getTime()));
-                }
+        for (int i = 180; i > 0; i--) {
+            for (User shop : userService.findByRole(roleService.getRoleByValue(Constants.SHOP))) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DATE, -i);
+                Random rand = new Random();
+                salesAnalyticsRepository.save(new SalesAnalytic(shop, 10 + rand.nextInt(50), 10000 + rand.nextInt(5000), calendar.getTime()));
             }
+        }
 
     }
 
-    public boolean tableClientsAnalyticsIsEmpty()
-    {
-        if(clientsAnalyticsRepository.findAll().size()==0)
-        {
+    public boolean IsTableClientsAnalyticsEmpty() {
+        if (clientsAnalyticsRepository.findAll().size() == 0) {
             logger.info("Table clientsAnalytic is empty");
             return true;
         }
         return false;
     }
 
-    public boolean tableShopsAnalyticsIsEmpty()
-    {
-        if(shopsAnalyticsRepository.findAll().size()==0)
-        {
+    public boolean IsTableShopsAnalyticsEmpty() {
+        if (shopsAnalyticsRepository.findAll().size() == 0) {
             logger.info("Table shopsAnalytics is empty");
             return true;
         }
         return false;
     }
 
-    public boolean tableSalesAnalyticsIsEmpty()
-    {
-        if(salesAnalyticsRepository.findAll().size()==0)
-        {
+    public boolean IsTableSalesAnalyticsEmpty() {
+        if (salesAnalyticsRepository.findAll().size() == 0) {
             logger.info("Table salesAnalytic is empty");
             return true;
         }

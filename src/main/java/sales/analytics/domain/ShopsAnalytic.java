@@ -19,7 +19,7 @@ import java.util.Date;
 public class ShopsAnalytic {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
     private int id;
 

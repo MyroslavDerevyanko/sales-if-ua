@@ -37,8 +37,7 @@ public class AnalyticsController {
 
     @RequestMapping(value = "/admin/clients/forPeriod", method = RequestMethod.GET, produces = "application/json")
 
-    public List<ClientsAnalytic> getClientAnalyticsForPeriod(@RequestParam(value = "from") long from, @RequestParam(value = "to") long to)
-    {
+    public List<ClientsAnalytic> getClientAnalyticsForPeriod(@RequestParam(value = "from") long from, @RequestParam(value = "to") long to) {
         Date fromDate = new Date(from);
         Date toDate = new Date(to);
         logger.info("Get users from " + fromDate + " to " + toDate);
@@ -47,8 +46,7 @@ public class AnalyticsController {
 
     @RequestMapping(value = "/admin/shops", method = RequestMethod.GET, produces = "application/json")
 
-    public List<ShopsAnalytic> getAllShopsAnalytics()
-    {
+    public List<ShopsAnalytic> getAllShopsAnalytics() {
         logger.info("Get all shops analytics");
         return analyticsService.getAllShopsAnalytic();
 
@@ -56,8 +54,7 @@ public class AnalyticsController {
 
     @RequestMapping(value = "/admin/shops/forPeriod", method = RequestMethod.GET, produces = "application/json")
 
-    public List<ShopsAnalytic> getShopsAnalyticsForPeriod(@RequestParam(value = "from") long from, @RequestParam(value = "to") long to)
-    {
+    public List<ShopsAnalytic> getShopsAnalyticsForPeriod(@RequestParam(value = "from") long from, @RequestParam(value = "to") long to) {
         Date fromDate = new Date(from);
         Date toDate = new Date(to);
         logger.info("Get users from " + fromDate + " to " + toDate);
@@ -66,32 +63,28 @@ public class AnalyticsController {
 
     @RequestMapping(value = "/admin/usersForLast/{min}", method = RequestMethod.GET, produces = "application/json")
 
-    public List<User> getLastUsers(@PathVariable int min)
-    {
+    public int getLastUsers(@PathVariable int min) {
         logger.info("Get users registred for the last time");
-        return analyticsService.getLastUsers(min);
+        return analyticsService.getLastUsers(min).size();
     }
 
     @RequestMapping(value = "/sales", method = RequestMethod.GET, produces = "application/json")
 
-    public List<SalesAnalytic> getAll()
-    {
+    public List<SalesAnalytic> getAll() {
         logger.info("Get all sales");
         return analyticsService.getAllSales();
     }
 
     @RequestMapping(value = "sales/shop/{id}", method = RequestMethod.GET, produces = "application/json")
 
-    public List<SalesAnalytic> getSalesByShop(@PathVariable Long id)
-    {
+    public List<SalesAnalytic> getSalesByShop(@PathVariable Long id) {
         logger.info("Get sales analytics by shop");
         return analyticsService.getAnalyticsByShop(id);
     }
 
     @RequestMapping(value = "sales/shop/{shopId}/byPeriod", method = RequestMethod.GET, produces = "application/json")
 
-    public List<SalesAnalytic> getSalesByShopAndPeriod(@PathVariable Long shopId, @RequestParam(value = "from") long from, @RequestParam(value = "to") long to)
-    {
+    public List<SalesAnalytic> getSalesByShopAndPeriod(@PathVariable Long shopId, @RequestParam(value = "from") long from, @RequestParam(value = "to") long to) {
         logger.info("Get sales analytics by shop and period");
         Date fromDate = new Date(from);
         Date toDate = new Date(to);

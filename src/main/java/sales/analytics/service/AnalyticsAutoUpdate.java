@@ -9,6 +9,7 @@ import sales.analytics.repository.ClientsAnalyticsRepository;
 
 import java.util.Date;
 import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sales.analytics.repository.SalesAnalyticsRepository;
@@ -36,19 +37,16 @@ public class AnalyticsAutoUpdate {
 
     protected static Logger logger = LoggerFactory.getLogger(AnalyticsAutoUpdate.class.getName());
 
-    @Scheduled(cron="50 23 */1 * * ?")
-    public void dailyUpdate()
-    {
+    @Scheduled(cron = "50 23 23 */1 * ?")
+    public void dailyUpdate() {
         Random rand = new Random();
         logger.debug("Daily update" + new Date());
         clientsAnalyticsRepository.save(new ClientsAnalytic(rand.nextInt(40) + analyticsService.getShopsAmountForLastTime(24 * 60), new Date()));
-        shopsAnalyticsRepository.save(new ShopsAnalytic(rand.nextInt(20)+analyticsService.getClientsAmountForLastTime(24 * 60), new Date()));
-        for (User shop: analyticsService.getAllShops())
-        {
+        shopsAnalyticsRepository.save(new ShopsAnalytic(rand.nextInt(20) + analyticsService.getClientsAmountForLastTime(24 * 60), new Date()));
+        for (User shop : analyticsService.getAllShops()) {
 
         }
     }
-
 
 
 }

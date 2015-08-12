@@ -10,6 +10,6 @@ import java.util.List;
 /**
  * Created by Myroslav on 10.08.2015.
  */
-public interface ShopsAnalyticsRepository extends JpaRepository<ShopsAnalytic, Long>{
+public interface ShopsAnalyticsRepository extends JpaRepository<ShopsAnalytic, Long> {
     List<ShopsAnalytic> findByDateBetween(Date from, Date to);
 }

@@ -14,7 +14,11 @@ import java.util.List;
 public interface AnalyticsService {
     public List<ClientsAnalytic> getAllClientAnalytic();
 
+    public List<ClientsAnalytic> getClientsAnalyticForPeriod(Date from, Date to);
+
     public List<ShopsAnalytic> getAllShopsAnalytic();
+
+    public List<ShopsAnalytic> getShopsAnalyticForPeriod(Date from, Date to);
 
     public int getClientsAmountForLastTime(int min);
 
@@ -27,4 +31,8 @@ public interface AnalyticsService {
     public List<User> getAllShops();
 
     public List<SalesAnalytic> getAnalyticsByShop(Long shop);
+
+    public List<SalesAnalytic> getAnalyticsByShopForPeriod(Long shop, Date from, Date to);
+
+
 }

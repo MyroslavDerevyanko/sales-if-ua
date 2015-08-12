@@ -4,16 +4,14 @@ import com.wordnik.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sales.analytics.domain.ClientsAnalytic;
 import sales.analytics.domain.SalesAnalytic;
 import sales.analytics.domain.ShopsAnalytic;
 import sales.analytics.service.AnalyticsService;
 import sales.users.domain.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,12 +35,33 @@ public class AnalyticsController {
         return analyticsService.getAllClientAnalytic();
     }
 
+    @RequestMapping(value = "/admin/clients/forPeriod", method = RequestMethod.GET, produces = "application/json")
+
+    public List<ClientsAnalytic> getClientAnalyticsForPeriod(@RequestParam(value = "from") long from, @RequestParam(value = "to") long to)
+    {
+        Date fromDate = new Date(from);
+        Date toDate = new Date(to);
+        logger.info("Get users from " + fromDate + " to " + toDate);
+        return analyticsService.getClientsAnalyticForPeriod(fromDate, toDate);
+    }
+
     @RequestMapping(value = "/admin/shops", method = RequestMethod.GET, produces = "application/json")
 
     public List<ShopsAnalytic> getAllShopsAnalytics()
     {
         logger.info("Get all shops analytics");
         return analyticsService.getAllShopsAnalytic();
+
+    }
+
+    @RequestMapping(value = "/admin/shops/forPeriod", method = RequestMethod.GET, produces = "application/json")
+
+    public List<ShopsAnalytic> getShopsAnalyticsForPeriod(@RequestParam(value = "from") long from, @RequestParam(value = "to") long to)
+    {
+        Date fromDate = new Date(from);
+        Date toDate = new Date(to);
+        logger.info("Get users from " + fromDate + " to " + toDate);
+        return analyticsService.getShopsAnalyticForPeriod(fromDate, toDate);
     }
 
     @RequestMapping(value = "/admin/usersForLast/{min}", method = RequestMethod.GET, produces = "application/json")
@@ -67,6 +86,17 @@ public class AnalyticsController {
     {
         logger.info("Get sales analytics by shop");
         return analyticsService.getAnalyticsByShop(id);
+    }
+
+    @RequestMapping(value = "sales/shop/{shopId}/byPeriod", method = RequestMethod.GET, produces = "application/json")
+
+    public List<SalesAnalytic> getSalesByShopAndPeriod(@PathVariable Long shopId, @RequestParam(value = "from") long from, @RequestParam(value = "to") long to)
+    {
+        logger.info("Get sales analytics by shop and period");
+        Date fromDate = new Date(from);
+        Date toDate = new Date(to);
+        logger.info("Get users from " + fromDate + " to " + toDate);
+        return analyticsService.getAnalyticsByShopForPeriod(shopId, fromDate, toDate);
     }
 }
 

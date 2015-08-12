@@ -12,8 +12,5 @@ import java.util.List;
  */
 public interface SalesAnalyticsRepository extends JpaRepository<SalesAnalytic, Long>{
     List<SalesAnalytic> findByShop(User shop);
-    SalesAnalytic findByDate(Date date);
-    List<SalesAnalytic> findByDateBetween(Date from, Date to);
-    List<SalesAnalytic> findByDateAfter(Date date);
-    List<SalesAnalytic> findByDateBefore(Date date);
+    List<SalesAnalytic> findByShopAndDateBetween(User shop, Date from, Date to);
 }
